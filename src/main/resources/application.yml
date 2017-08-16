@@ -1,0 +1,18 @@
+server:
+  port: 5000
+spring:
+  output:
+    ansi:
+      enabled: ALWAYS
+
+management:
+  security:
+    enabled: false
+
+# LOGGING
+# Level = TRACE, DEBUG, INFO, WARN, ERROR, FATAL, OFF
+logging:
+  file: ghostchat.log
+  level:
+    root: INFO
+    com.workingghost: DEBUG
