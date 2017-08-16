@@ -30,6 +30,8 @@ dependencies {
     compile("org.springframework.boot:spring-boot-starter-logging")
     // https://github.com/ReplyYes/facebook-messenger
     compile("com.replyyes:facebook-messenger:0.1.0")
+    // https://projectlombok.org/features/Data
+    compile("org.projectlombok:lombok:1.16.18")
     compile("com.google.guava:guava:22.0")
     compile("com.google.code.gson:gson:2.8.1")
     compile("org.json:json:20170516")
