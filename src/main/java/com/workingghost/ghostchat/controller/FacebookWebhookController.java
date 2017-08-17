@@ -112,6 +112,12 @@ public class FacebookWebhookController {
                         design.setImageUrl("https://s3-ap-southeast-1.amazonaws.com/fzpublic/fz2.jpg");
                         design.setItemUrl("https://en.wikipedia.org/wiki/Zeppelin#History");
 
+                        Element hindenburg = new Element();
+                        hindenburg.setTitle("Hindenburg disaster");
+                        hindenburg.setSubtitle("The Hindenburg disaster occurred on May 6, 1937.");
+                        hindenburg.setImageUrl("https://s3-ap-southeast-1.amazonaws.com/fzpublic/fz3.jpg");
+                        hindenburg.setItemUrl("https://en.wikipedia.org/wiki/Hindenburg_disaster");
+
                         List<QuickReply> quickReplieList = new ArrayList<>();
                         QuickReply quickReply1 = new QuickReply();
                         quickReply1.setTitle("Quick reply1");
@@ -124,6 +130,7 @@ public class FacebookWebhookController {
 
                         elementList.add(flyingZeppelin);
                         elementList.add(design);
+                        elementList.add(hindenburg);
                         client.sendGenericMessage(token, senderId, elementList, quickReplieList);
                     } else {
                         client.sendTextMessage(token, senderId, "You said \""+replyText+"\"? :) Hint: try \"generics\"");
