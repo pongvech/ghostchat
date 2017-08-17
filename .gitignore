@@ -84,3 +84,5 @@ gradle-app.setting
 
 /.idea/
 /.idea/vcs.xml
+
+*.iml
