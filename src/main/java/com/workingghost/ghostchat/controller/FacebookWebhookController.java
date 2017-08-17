@@ -1,5 +1,7 @@
 package com.workingghost.ghostchat.controller;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.replyyes.facebook.messenger.FacebookMessengerClient;
 import com.replyyes.facebook.messenger.bean.Callback;
 import com.replyyes.facebook.messenger.bean.Element;
@@ -14,12 +16,14 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.client.RestTemplate;
 
 import java.util.ArrayList;
+import java.util.Base64;
 import java.util.List;
 
 @RestController
 public class FacebookWebhookController {
 
     private static final Logger logger = LoggerFactory.getLogger(FacebookWebhookController.class);
+    private static final ObjectMapper OBJECT_MAPPER = new ObjectMapper();
 
     @Value("${facebook_page_token}")
     private String token;
@@ -51,7 +55,8 @@ public class FacebookWebhookController {
 
     @RequestMapping(path = "/webhook", method = RequestMethod.POST)
     public String postWebhook(@RequestBody String request,
-                              @RequestHeader("X-Hub-Signature") String signature) throws FacebookMessengerSendException {
+                              @RequestHeader("X-Hub-Signature") String signature) throws FacebookMessengerSendException, JsonProcessingException {
+        RestTemplate restTemplate = new RestTemplate();
         logger.debug("Got webhook request!");
         logger.debug("X-Hub-Signature = {}", signature);
         logger.debug(request);
@@ -74,6 +79,15 @@ public class FacebookWebhookController {
             logger.debug("Found {} messaging elements", entry.getMessaging().size());
             for (Messaging messaging : entry.getMessaging()) {
                 senderId = messaging.getSender().getId();
+
+//                String typingAction = "{\"recipient\":{\"id\":"+senderId+"},\"sender_action\":\"mark_seen\"}";
+//                restTemplate.postForObject("https://graph.facebook.com/v2.6/me/messages?access_token="+token,
+//                        OBJECT_MAPPER.writeValueAsString(typingAction), String.class);
+//
+//                typingAction = "{\"recipient\":{\"id\":"+senderId+"},\"sender_action\":\"typing_on\"}";
+//                restTemplate.postForObject("https://graph.facebook.com/v2.6/me/messages?access_token="+token,
+//                        OBJECT_MAPPER.writeValueAsString(typingAction), String.class);
+
                 if (messaging.getMessage() != null) {
                     replyText = messaging.getMessage().getText();
                     if (replyText.equalsIgnoreCase("parn")) {
