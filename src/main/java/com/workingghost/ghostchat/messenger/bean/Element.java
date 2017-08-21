@@ -4,7 +4,11 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonInclude.Include;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlElementWrapper;
+import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlProperty;
 import lombok.Data;
+
+import java.util.List;
 
 /**
  * The {@link OutboundPayload} for {@link Attachment} instances can have a list of Elements. For example,
@@ -37,4 +41,8 @@ public class Element {
      * Bubble subtitle. Optional.
      */
     private String subtitle;
+
+    @JacksonXmlProperty(localName = "button")
+    @JacksonXmlElementWrapper(localName = "buttons")
+    private List<Button> buttons;
 }
