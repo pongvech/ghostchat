@@ -3,12 +3,7 @@ package com.workingghost.ghostchat.controller;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.replyyes.facebook.messenger.FacebookMessengerClient;
-import com.replyyes.facebook.messenger.bean.Callback;
-import com.replyyes.facebook.messenger.bean.Element;
-import com.replyyes.facebook.messenger.bean.Entry;
-import com.replyyes.facebook.messenger.bean.FacebookMessengerSendException;
-import com.replyyes.facebook.messenger.bean.Messaging;
-import com.replyyes.facebook.messenger.bean.QuickReply;
+import com.replyyes.facebook.messenger.bean.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
@@ -51,6 +46,13 @@ public class FacebookWebhookController {
         logger.debug("Create Persistent Menu with {}", request);
         return restTemplate.postForObject("https://graph.facebook.com/v2.6/me/messenger_profile?access_token="+token,
                 request, String.class);
+    }
+
+    @RequestMapping(path = "/sendmessage/{psid}", method = RequestMethod.POST)
+    public String sendMessage(@RequestBody String request, @PathVariable String psid) throws FacebookMessengerSendException {
+        FacebookMessengerClient client = new FacebookMessengerClient();
+        MessageResponse response = client.sendTextMessage(token, psid, request);
+        return response.toString();
     }
 
     @RequestMapping(path = "/webhook", method = RequestMethod.POST)
@@ -136,7 +138,7 @@ public class FacebookWebhookController {
                         client.sendTextMessage(token, senderId, "You said \""+replyText+"\"? :) Hint: try \"generics\"");
                     }
                 } else if (messaging.getPostback() != null && messaging.getPostback().getPayload().equals("GET_STARTED_PAYLOAD")) {
-                    replyText = "Greeting! Welcome to Flying Zeppelin!";
+                    replyText = "Greeting! Welcome to Flying Zeppelin! Your PSID is " + senderId;
                     client.sendTextMessage(token, senderId, ""+replyText);
                 }
             }
