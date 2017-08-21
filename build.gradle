@@ -29,7 +29,20 @@ dependencies {
     compile("org.springframework.boot:spring-boot-starter-actuator")
     compile("org.springframework.boot:spring-boot-starter-logging")
     // https://github.com/ReplyYes/facebook-messenger
-    compile("com.replyyes:facebook-messenger:0.1.0")
+    //compile("com.replyyes:facebook-messenger:0.1.0")
+
+    compile("commons-codec:commons-codec:1.10")
+    compile group: 'org.apache.commons', name: 'commons-collections4', version: '4.1'
+    compile group: 'commons-io', name: 'commons-io', version: '2.5'
+    compile group: 'org.apache.commons', name: 'commons-lang3', version: '3.6'
+    compile group: 'org.apache.httpcomponents', name: 'httpclient', version: '4.5.3'
+    compile group: 'org.apache.httpcomponents', name: 'httpcore', version: '4.4.6'
+
+    compile group: 'com.fasterxml.jackson.core', name: 'jackson-core'
+    compile group: 'com.fasterxml.jackson.core', name: 'jackson-databind'
+    compile group: 'com.fasterxml.jackson.dataformat', name: 'jackson-dataformat-xml'
+    compile group: 'com.fasterxml.jackson.datatype', name: 'jackson-datatype-jsr310'
+
     // https://projectlombok.org/features/Data
     compile("org.projectlombok:lombok:1.16.18")
     compile("com.google.guava:guava:22.0")

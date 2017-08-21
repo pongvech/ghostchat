@@ -1,24 +1,29 @@
 package com.workingghost.ghostchat.controller;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.replyyes.facebook.messenger.FacebookMessengerClient;
-import com.replyyes.facebook.messenger.bean.*;
+import com.workingghost.ghostchat.messenger.FacebookMessengerClient;
+import com.workingghost.ghostchat.messenger.bean.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.client.RestTemplate;
 
 import java.util.ArrayList;
-import java.util.Base64;
 import java.util.List;
 
 @RestController
 public class FacebookWebhookController {
 
     private static final Logger logger = LoggerFactory.getLogger(FacebookWebhookController.class);
-    private static final ObjectMapper OBJECT_MAPPER = new ObjectMapper();
+
+    @Autowired
+    private FacebookMessengerClient client;
+
+    private static final String SENDER_ACTION_TYPING_ON = "typing_on";
+    private static final String SENDER_ACTION_MARK_SEEN = "mark_seen";
+    private static final String SENDER_ACTION_TYPING_OFF = "typing_off";
 
     @Value("${facebook_page_token}")
     private String token;
@@ -63,7 +68,6 @@ public class FacebookWebhookController {
         logger.debug("X-Hub-Signature = {}", signature);
         logger.debug(request);
 
-        FacebookMessengerClient client = new FacebookMessengerClient();
         if (client.isValidRequest(secretKey, signature, request)) {
             logger.debug("Request is valid!");
         } else {
