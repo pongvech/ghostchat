@@ -18,6 +18,7 @@ import org.apache.http.entity.StringEntity;
 import org.apache.http.impl.client.CloseableHttpClient;
 import org.apache.http.impl.client.HttpClients;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
 
 import java.io.IOException;
@@ -30,7 +31,7 @@ import static com.google.common.base.Preconditions.checkArgument;
  * A client for interacting with the Facebook Messenger API. Multiple pages can be supported as the
  * page access token is a parameter for methods that make API calls.
  */
-@Service
+@Component
 @RequiredArgsConstructor
 @Slf4j
 public class FacebookMessengerClient {
